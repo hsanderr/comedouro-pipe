@@ -35,12 +35,13 @@ Entretanto, uma outra possibilidade foi levantada durante as discussões do proj
 - Enquanto a tag estiver próxima, a tampa deve permanecer aberta.
 - Após a tag sair de perto do módulo PN532, a tampa do comedouro deve ser fechada.
 - Quando uma tag não cadastrada se aproximar, a tampa deve permanecer fechada.
+- ESP32 deve salvar em memória flash (NVS) informações necessárias para que o usuário cadastre a tag apenas uma vez.
 
 ## Requisitos não funcionais
 
-Não há nenhum por enquanto.
+- A tag deve precisar ser cadastrada uma vez só, sem a necessidade de cadastrar novamente em caso de desligamento.
 
 # Links
 
-- [Quadro do projeto no Miro (visualização apenas)](https://miro.com/app/board/uXjVMkIKjfA=/?share_link_id=717268011685)
+- [Quadro do projeto no Miro (visualização)](https://miro.com/app/board/uXjVMkIKjfA=/?share_link_id=717268011685)
 - [Quadro do projeto no Miro (dev)](https://miro.com/app/board/uXjVMkIKjfA=/?share_link_id=29421162542)
