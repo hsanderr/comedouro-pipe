@@ -23,13 +23,61 @@
  *
  */
 
+//------------------ Includes Start //------------------
+
 #include "sdkconfig.h"
 #include "esp_log.h"
+#include "nvs_flash.h"
+#include "esp_err.h"
+
+//------------------ Includes End ------------------//
+
+//------------------ Defines Start ------------------//
+
+#define STORAGE_NAMESPACE "storage" ///< Namespace for NVS storage
+
+//------------------ Includes End ------------------//
+
+//------------------ Variables declarations Start ------------------//
 
 static const char *TAG = "MainModule";
 
+//------------------ Variables declarations End ------------------//
+
+//------------------ Functions prototypes Start ------------------//
+
+static void main__init(void);
+
+//------------------ Functions prototypes End ------------------//
+
+//------------------ Main Start ------------------//
+
 void app_main(void)
 {
-  ESP_LOGI(TAG, "Olá mundo! Executando firmware do gateway"
-                "do comedouro com tampa acionada por proximidade.");
+  ESP_LOGI(TAG, "Olá mundo! Inicializando módulos principais...");
+  main__init();
 }
+
+//------------------ Main End ------------------//
+
+//------------------ Functions definitions Start ------------------//
+
+/**
+ * @brief Initialize basic modules.
+ *
+ */
+void main__init(void)
+{
+  esp_err_t err;
+  err = nvs_flash_init();
+  if (err != ESP_OK)
+  {
+    ESP_LOGE(TAG, "Erro %d inicializando NVS: %s", err, esp_err_to_name(err));
+  }
+  else
+  {
+    ESP_LOGI(TAG, "Partição NVS inicializada com sucesso");
+  }
+}
+
+//------------------ Functions definitions End ------------------//
