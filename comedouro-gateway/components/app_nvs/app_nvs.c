@@ -72,4 +72,108 @@ esp_err_t nvs__init(void)
     return err;
 }
 
+void nvs__read(void *var, char *key, nvs_var_type_t var_type)
+{
+    nvs_handle_t my_handle;
+    esp_err_t err;
+    switch (var_type)
+    {
+    case nvs_int8:
+        ESP_LOGI(TAG, "Reading int8 from NVS");
+        err = nvs_open(STORAGE_NAMESPACE, NVS_READWRITE, &my_handle);
+        if (err != ESP_OK)
+        {
+            ESP_LOGE(TAG, "Error %d opening NVS: %s", err, esp_err_to_name(err));
+        }
+        else
+        {
+            ESP_LOGI(TAG, "Success opening NVS");
+            err = nvs_get_i8(my_handle, key, var);
+            if (err != ESP_OK)
+            {
+                ESP_LOGE(TAG, "Error %d reading from NVS: %s", err, esp_err_to_name(err));
+            }
+            else
+            {
+                ESP_LOGI(TAG, "Success reading from NVS");
+            }
+        }
+        break;
+    case nvs_uint8:
+        ESP_LOGI(TAG, "Reading uint8 from NVS");
+        err = nvs_open(STORAGE_NAMESPACE, NVS_READWRITE, &my_handle);
+        if (err != ESP_OK)
+        {
+            ESP_LOGE(TAG, "Error %d opening NVS: %s", err, esp_err_to_name(err));
+        }
+        else
+        {
+            ESP_LOGI(TAG, "Success opening NVS");
+            err = nvs_get_u8(my_handle, key, var);
+            if (err != ESP_OK)
+            {
+                ESP_LOGE(TAG, "Error %d reading from NVS: %s", err, esp_err_to_name(err));
+            }
+            else
+            {
+                ESP_LOGI(TAG, "Success reading from NVS");
+            }
+        }
+    default:
+        break;
+    }
+}
+
+void nvs__write(void *var, char *key, nvs_var_type_t var_type)
+{
+    nvs_handle_t my_handle;
+    esp_err_t err;
+    switch (var_type)
+    {
+    case nvs_int8:
+        ESP_LOGI(TAG, "Writing int8 to NVS");
+        err = nvs_open(STORAGE_NAMESPACE, NVS_READWRITE, &my_handle);
+        if (err != ESP_OK)
+        {
+            ESP_LOGE(TAG, "Error %d opening NVS: %s", err, esp_err_to_name(err));
+        }
+        else
+        {
+            ESP_LOGI(TAG, "Success opening NVS");
+            err = nvs_set_i8(my_handle, key, *((int8_t *)var));
+            if (err != ESP_OK)
+            {
+                ESP_LOGE(TAG, "Error %d writing to NVS: %s", err, esp_err_to_name(err));
+            }
+            else
+            {
+                ESP_LOGI(TAG, "Success writing to NVS");
+            }
+        }
+        break;
+    case nvs_uint8:
+        ESP_LOGI(TAG, "Writing uint8 to NVS");
+        err = nvs_open(STORAGE_NAMESPACE, NVS_READWRITE, &my_handle);
+        if (err != ESP_OK)
+        {
+            ESP_LOGE(TAG, "Error %d opening NVS: %s", err, esp_err_to_name(err));
+        }
+        else
+        {
+            ESP_LOGI(TAG, "Success opening NVS");
+            err = nvs_set_u8(my_handle, key, *((uint8_t *)var));
+            if (err != ESP_OK)
+            {
+                ESP_LOGE(TAG, "Error %d writing to NVS: %s", err, esp_err_to_name(err));
+            }
+            else
+            {
+                ESP_LOGI(TAG, "Success writing to NVS");
+            }
+        }
+    default:
+        break;
+    }
+}
+
 //------------------ Functions definitions End ------------------//

@@ -26,15 +26,27 @@
 #ifndef APP_NVS_H
 #define APP_NVS_H
 
-//------------------ Includes Start ------------------//
+//------------------ 3rd-part Includes Start ------------------//
 
 #include "esp_err.h"
 
-//------------------ Includes End ------------------//
+//------------------ 34d-part Includes End ------------------//
+
+//------------------ Typedefs Start ------------------//
+
+typedef enum
+{
+  nvs_int8,
+  nvs_uint8
+} nvs_var_type_t;
+
+//------------------ Typedefs End ------------------//
 
 //------------------ Functions declarations Start ------------------//
 
 esp_err_t nvs__init(void);
+void nvs__read(void *var, char *key, nvs_var_type_t var_type);
+void nvs__write(void *var, char *key, nvs_var_type_t var_type);
 
 //------------------ Functions declarations End ------------------//
 

@@ -59,8 +59,8 @@ static void main__init(void);
 
 void app_main(void)
 {
-  ESP_LOGI(TAG, "Olá mundo! Inicializando módulos principais...");
-  main__init();
+    ESP_LOGI(TAG, "Olá mundo! Inicializando módulos principais...");
+    main__init();
 }
 
 //------------------ Main End ------------------//
@@ -71,10 +71,10 @@ void app_main(void)
  * @brief Initialize basic modules.
  *
  */
-void main__init(void)
+static void main__init(void)
 {
-  esp_err_t err;
-  err = nvs__init();
+    esp_err_t err;
+    err = nvs__init();
 }
 
 //------------------ Functions definitions End ------------------//
