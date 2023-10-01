@@ -58,6 +58,11 @@ esp_err_t nvs__init(void);
 
 //------------------ Functions definitions Start ------------------//
 
+/**
+ * @brief Initialize NVS.
+ *
+ * @return esp_err_t
+ */
 esp_err_t nvs__init(void)
 {
     esp_err_t err = nvs_flash_init();
@@ -72,6 +77,13 @@ esp_err_t nvs__init(void)
     return err;
 }
 
+/**
+ * @brief Read NVS entry.
+ *
+ * @param var Pointer to variable where the value will be stored.
+ * @param key Key to be read.
+ * @param var_type Type of variable.
+ */
 void nvs__read(void *var, char *key, nvs_var_type_t var_type)
 {
     nvs_handle_t my_handle;
@@ -124,6 +136,13 @@ void nvs__read(void *var, char *key, nvs_var_type_t var_type)
     }
 }
 
+/**
+ * @brief Write to NVS entry.
+ *
+ * @param var Variable to be written.
+ * @param key Key to be written.
+ * @param var_type Type of variable.
+ */
 void nvs__write(void *var, char *key, nvs_var_type_t var_type)
 {
     nvs_handle_t my_handle;
