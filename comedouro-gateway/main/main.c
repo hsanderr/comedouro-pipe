@@ -34,6 +34,7 @@
 //------------------ App Includes Start ------------------//
 
 #include "app_nvs.h"
+#include "app_spi.h"
 
 //------------------ 3rd-part Includes End ------------------//
 
@@ -41,7 +42,7 @@
 
 #define STORAGE_NAMESPACE "storage" ///< Namespace for NVS storage
 
-//------------------ Includes End ------------------//
+//------------------ Defines End ------------------//
 
 //------------------ Variables declarations Start ------------------//
 
@@ -59,7 +60,7 @@ static void main__init(void);
 
 void app_main(void)
 {
-    ESP_LOGI(TAG, "Olá mundo! Inicializando módulos principais...");
+    ESP_LOGI(TAG, "Hello world! Initializing modules...");
     main__init();
 }
 
@@ -75,6 +76,15 @@ static void main__init(void)
 {
     esp_err_t err;
     err = nvs__init();
+    if (err != ESP_OK)
+    {
+        ESP_LOGE(TAG, "Error %d initializing NVS", err);
+    }
+    err = spi__init();
+    if (err != ESP_OK)
+    {
+        ESP_LOGE(TAG, "Error %d initializing SPI", err);
+    }
 }
 
 //------------------ Functions definitions End ------------------//

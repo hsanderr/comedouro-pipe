@@ -14,6 +14,7 @@
     "idf.adapterTargetName": "esp32",
     "files.associations": {
         "*.ejs": "html",
-        "sdkconfig.h": "c"
+        "sdkconfig.h": "c",
+        "app_nvs.h": "c"
     }
 }
