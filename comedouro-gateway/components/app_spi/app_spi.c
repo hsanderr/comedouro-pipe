@@ -29,6 +29,9 @@
 #include "esp_log.h"
 #include "esp_err.h"
 #include "driver/spi_master.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include <string.h>
 
 //------------------ 3rd-part Includes End ------------------//
 
@@ -58,19 +61,53 @@ static const char *TAG = "SpiModule";
 
 //------------------ Functions definitions Start ------------------//
 
-esp_err_t spi__add_pn532(void)
+spi_device_handle_t handler;
+
+esp_err_t spi__test_pn532(void)
+{
+    // char data[1] = {0x9a, 0x9b, 0x9c, 0x9d, 0x9e, 0x9f, 0xa1, 0xa2, 0xa3};
+    char data[] = {0, 0, 0xff, 4, 5, 6, 7, 8, 9, 10, 0xa9, 0xaa, 3, 4, 5, 6, 7, 8, 9, 10};
+    char data_res[20] = {0};
+    spi_transaction_t trans = {
+        // .cmd = 0,
+        // .addr = 0xa9,
+        .length = 160,
+        .rxlength = 160,
+        .tx_buffer = data,
+        .rx_buffer = data_res,
+    };
+    esp_err_t err = spi_device_polling_transmit(handler, &trans);
+    if (err != ESP_OK)
+    {
+        ESP_LOGE(TAG, "Error %d transmitting SPI: %s", err, esp_err_to_name(err));
+    }
+    else
+    {
+        vTaskDelay(pdMS_TO_TICKS(1000));
+        ESP_LOGI(TAG, "Success transmitting SPI data, response=%s", data_res);
+        for (uint8_t i = 0; i < 20; i++)
+        {
+            printf("%.2x\n", data_res[i]);
+        }
+    }
+    return err;
+}
+
+static esp_err_t spi__add_pn532(void)
 {
     spi_host_device_t host_id = SPI_HOST_ID;
     spi_device_interface_config_t dev_config = {
-        .command_bits = 2,
-        .address_bits = 2,
-        .dummy_bits = 0,
+        // .command_bits = 2,
+        // .address_bits = 2,
+        // .dummy_bits = 0,
         .mode = 0,
         .spics_io_num = -1,
-        .clock_speed_hz = 80000000,
-        .queue_size = 8,
+        // .clock_source = SPI_HOST_ID,
+        .clock_speed_hz = 4000000,
+        .queue_size = 1,
+        .spics_io_num = SPI_CS_GPIO,
+        // .input_delay_ns = 1000000,
     };
-    spi_device_handle_t handler;
     esp_err_t err = spi_bus_add_device(host_id, &dev_config, &handler);
     return err;
 }
@@ -92,7 +129,7 @@ esp_err_t spi__init(void)
         .data7_io_num = -1,
         .quadwp_io_num = -1,
         .quadhd_io_num = -1,
-        .max_transfer_sz = SPI_MAX_DMA_LEN,
+        .max_transfer_sz = 256,
         .flags = (SPICOMMON_BUSFLAG_MASTER ||
                   SPICOMMON_BUSFLAG_IOMUX_PINS ||
                   SPICOMMON_BUSFLAG_SCLK ||
@@ -100,7 +137,7 @@ esp_err_t spi__init(void)
                   SPICOMMON_BUSFLAG_MISO),
 
     };
-    spi_dma_chan_t dma_chan = SPI_DMA_CH1;
+    spi_dma_chan_t dma_chan = SPI_DMA_DISABLED;
     esp_err_t err = spi_bus_initialize(host_id, &bus_config, dma_chan);
     if (err != ESP_OK)
     {
@@ -121,6 +158,7 @@ esp_err_t spi__init(void)
     {
         ESP_LOGI(TAG, "PN532 added successfully");
     }
+    spi__test_pn532();
     return ESP_OK;
 }
 
