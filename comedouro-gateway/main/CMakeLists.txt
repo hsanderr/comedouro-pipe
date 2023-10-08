@@ -1,3 +1,3 @@
 idf_component_register(SRCS "main.c"
-                    INCLUDE_DIRS "../components/app_nvs/include" "../components/app_spi/include" "../components/pn532"
+                    INCLUDE_DIRS "./include" "../components/app_nvs/include" "../components/app_spi/include" "../components/app_pn532/include"
                     REQUIRES app_nvs)

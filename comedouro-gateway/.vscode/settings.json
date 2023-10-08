@@ -15,6 +15,7 @@
     "files.associations": {
         "*.ejs": "html",
         "sdkconfig.h": "c",
-        "app_nvs.h": "c"
+        "app_nvs.h": "c",
+        "pn532.h": "c"
     }
 }

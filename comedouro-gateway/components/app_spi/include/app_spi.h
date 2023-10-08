@@ -26,7 +26,7 @@
 #ifndef APP_SPI_H
 #define APP_SPI_H
 
-//------------------ 3rd-part Includes Start ------------------//
+//------------------ 3rd party Includes Start ------------------//
 
 #include "esp_err.h"
 

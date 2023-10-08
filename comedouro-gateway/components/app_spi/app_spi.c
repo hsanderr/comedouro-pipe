@@ -23,7 +23,7 @@
  *
  */
 
-//------------------ 3rd-part Includes Start ------------------//
+//------------------ 3rd party Includes Start ------------------//
 
 #include "sdkconfig.h"
 #include "esp_log.h"
@@ -33,11 +33,11 @@
 #include "freertos/task.h"
 #include <string.h>
 
-//------------------ 3rd-part Includes End ------------------//
+//------------------ 3rd party Includes End ------------------//
 
 //------------------ App Includes Start ------------------//
 
-//------------------ 3rd-part Includes End ------------------//
+//------------------ 3rd party Includes End ------------------//
 
 //------------------ Defines Start ------------------//
 

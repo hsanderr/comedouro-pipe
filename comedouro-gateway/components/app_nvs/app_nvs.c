@@ -23,20 +23,20 @@
  *
  */
 
-//------------------ 3rd-part Includes Start ------------------//
+//------------------ 3rd party Includes Start ------------------//
 
 #include "sdkconfig.h"
 #include "esp_log.h"
 #include "nvs_flash.h"
 #include "esp_err.h"
 
-//------------------ 3rd-part Includes End ------------------//
+//------------------ 3rd party Includes End ------------------//
 
 //------------------ App Includes Start ------------------//
 
 #include "app_nvs.h"
 
-//------------------ 3rd-part Includes End ------------------//
+//------------------ 3rd party Includes End ------------------//
 
 //------------------ Defines Start ------------------//
 
