@@ -1394,7 +1394,6 @@ void pn532__read_data(pn532_t *obj, uint8_t *buff, uint8_t n)
     {
         ESP_LOGD(TAG, " %02x", buff[i]);
     }
-    ESP_LOGD(TAG, "\n");
 
     gpio_set_level(obj->_cs, 1);
 }
@@ -1543,7 +1542,7 @@ void pn532__write_cmd(pn532_t *obj, uint8_t *cmd, uint8_t cmdlen)
     pn532__spi_write(obj, PN532_POSTAMBLE);
     gpio_set_level(obj->_cs, 1);
 
-    ESP_LOGD(TAG, " %02x %02x\n", (uint8_t)~checksum, (uint8_t)PN532_POSTAMBLE);
+    ESP_LOGD(TAG, " %02x %02x", (uint8_t)~checksum, (uint8_t)PN532_POSTAMBLE);
 }
 /************** low level SPI */
 
