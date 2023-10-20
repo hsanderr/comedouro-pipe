@@ -1,9 +1,9 @@
 /**
- * @file app_nvs.h
+ * @file file.h
  * @author Henrique Sander Lourenço
  * @brief
  * @version 0.1
- * @date 2023-09-23
+ * @date yyyy-mm-dd
  *
  * @copyright    Copyright 2023 Henrique Sander Lourenço
 
@@ -18,35 +18,37 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-
- *
  *
  */
 
-#ifndef APP_NVS_H
-#define APP_NVS_H
+#ifndef FILE_H
+#define FILE_H
 
 //------------------ 3rd party Includes Start ------------------//
 
-#include "esp_err.h"
+//------------------ 3rd party Includes End ------------------//
 
-//------------------ 3rd-part Includes End ------------------//
+//------------------ App Includes Start ------------------//
 
-//------------------ Typedefs Start ------------------//
+//------------------ 3rd party Includes End ------------------//
 
-typedef enum
-{
-  nvs_int8,
-  nvs_uint8
-} nvs_var_type_t;
+//------------------ Defines Start ------------------//
 
-//------------------ Typedefs End ------------------//
+//------------------ Defines End ------------------//
+
+//------------------ Variables declarations Start ------------------//
+
+//------------------ Variables declarations End ------------------//
+
+//------------------ Functions prototypes Start ------------------//
+
+//------------------ Functions prototypes End ------------------//
+
+//------------------ Main Start ------------------//
+
+//------------------ Main End ------------------//
 
 //------------------ Functions declarations Start ------------------//
-
-esp_err_t nvs__init(void);
-void nvs__read(void *var, char *key, nvs_var_type_t var_type);
-void nvs__write(void *var, char *key, nvs_var_type_t var_type);
 
 //------------------ Functions declarations End ------------------//
 

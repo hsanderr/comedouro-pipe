@@ -1,5 +1,5 @@
 /**
- * @file app_nvs.h
+ * @file app_nvs.c
  * @author Henrique Sander Lourenço
  * @brief
  * @version 0.1
@@ -23,26 +23,26 @@
  *
  */
 
-//------------------ 3rd-part Includes Start ------------------//
+//------------------ 3rd party Includes Start ------------------//
 
 #include "sdkconfig.h"
 #include "esp_log.h"
 #include "nvs_flash.h"
 #include "esp_err.h"
 
-//------------------ 3rd-part Includes End ------------------//
+//------------------ 3rd party Includes End ------------------//
 
 //------------------ App Includes Start ------------------//
 
 #include "app_nvs.h"
 
-//------------------ 3rd-part Includes End ------------------//
+//------------------ 3rd party Includes End ------------------//
 
 //------------------ Defines Start ------------------//
 
 #define STORAGE_NAMESPACE "storage" ///< Namespace for NVS storage
 
-//------------------ Includes End ------------------//
+//------------------ Defines End ------------------//
 
 //------------------ Variables declarations Start ------------------//
 
@@ -68,11 +68,11 @@ esp_err_t nvs__init(void)
     esp_err_t err = nvs_flash_init();
     if (err != ESP_OK)
     {
-        ESP_LOGE(TAG, "Erro %d inicializando NVS: %s", err, esp_err_to_name(err));
+        ESP_LOGE(TAG, "Error %d initializing NVS: %s", err, esp_err_to_name(err));
     }
     else
     {
-        ESP_LOGI(TAG, "Partição NVS inicializada com sucesso");
+        ESP_LOGI(TAG, "NVS partition successfully initialized");
     }
     return err;
 }
