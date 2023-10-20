@@ -178,7 +178,7 @@ extern "C"
     bool pn532__send_cmd_check_ack(pn532_t *obj, uint8_t *cmd, uint8_t cmdlen, uint16_t timeout);
     bool pn532_writeGPIO(pn532_t *obj, uint8_t pinstate);
     uint8_t pn532_readGPIO(pn532_t *obj);
-    bool pn532_SAMConfig(pn532_t *obj);
+    bool pn532__sam_config(pn532_t *obj);
     bool pn532_setPassiveActivationRetries(pn532_t *obj, uint8_t maxRetries);
     bool pn532_readPassiveTargetID(pn532_t *obj, uint8_t cardbaudrate, uint8_t *uid, uint8_t *uidLength, uint16_t timeout);
     bool pn532_inDataExchange(pn532_t *obj, uint8_t *send, uint8_t sendLength, uint8_t *response, uint8_t *responseLength);

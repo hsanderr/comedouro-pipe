@@ -1,5 +1,5 @@
 /**
- * @file pn532.c
+ * @file app_pn532.c
  * @author Henrique Sander Lourenço
  * @brief Strongly based on https://github.com/revk/ESP32-PN532
  * @version 0.1
@@ -31,7 +31,7 @@
 #include "freertos/task.h"
 #include "freertos/queue.h"
 #include "sdkconfig.h"
-#define LOG_LOCAL_LEVEL ESP_LOG_DEBUG // set log level
+#define LOG_LOCAL_LEVEL ESP_LOG_INFO // set log level
 #include "esp_log.h"
 #include "esp_log_internal.h"
 #include "esp_err.h"
@@ -41,6 +41,7 @@
 
 //------------------ App Includes Start ------------------//
 
+#include "global_prm.h"
 #include "app_pn532.h"
 
 //------------------ 3rd party Includes End ------------------//
@@ -223,13 +224,14 @@ bool pn532__send_cmd_check_ack(pn532_t *obj, uint8_t *cmd, uint8_t cmdlen, uint1
     // Wait for chip to say its ready!
     if (!pn532__wait_until_ready(obj, timeout))
     {
+        ESP_LOGD(TAG, "first wait until ready failed");
         return false;
     }
 
     // read acknowledgement
     if (!pn532__read_ack(obj))
     {
-        ESP_LOGD(TAG, "No ACK frame received!\n");
+        ESP_LOGD(TAG, "No ACK frame received!");
         return false;
     }
 
@@ -237,6 +239,7 @@ bool pn532__send_cmd_check_ack(pn532_t *obj, uint8_t *cmd, uint8_t cmdlen, uint1
     // This is unnecessary with I2C.
     if (!pn532__wait_until_ready(obj, timeout))
     {
+        ESP_LOGD(TAG, "second wait until ready failed");
         return false;
     }
 
@@ -364,15 +367,17 @@ uint8_t pn532_readGPIO(pn532_t *obj)
     @brief  Configures the SAM (Secure Access Module)
 */
 /**************************************************************************/
-bool pn532_SAMConfig(pn532_t *obj)
+bool pn532__sam_config(pn532_t *obj)
 {
     pn532_packet_buf[0] = PN532_COMMAND_SAMCONFIGURATION;
     pn532_packet_buf[1] = 0x01; // normal mode;
     pn532_packet_buf[2] = 0x14; // timeout 50ms * 20 = 1 second
     pn532_packet_buf[3] = 0x01; // use IRQ pin!
 
-    if (!pn532__send_cmd_check_ack(obj, pn532_packet_buf, 4, 1000))
+    if (!pn532__send_cmd_check_ack(obj, pn532_packet_buf, 4, PN532_ACK_TIMEOUT_MS))
         return false;
+
+    ESP_LOGD(TAG, "SAM cmd sent");
 
     // read data packet
     pn532__read_data(obj, pn532_packet_buf, 8);
@@ -428,11 +433,15 @@ bool pn532_readPassiveTargetID(pn532_t *obj, uint8_t cardbaudrate, uint8_t *uid,
     pn532_packet_buf[1] = 1; // max 1 cards at once (we can set this to 2 later)
     pn532_packet_buf[2] = cardbaudrate;
 
+    ESP_LOGD(TAG, "sending command to PN532");
+
     if (!pn532__send_cmd_check_ack(obj, pn532_packet_buf, 3, timeout))
     {
         ESP_LOGD(TAG, "No card(s) read\n");
         return 0x0; // no cards read
     }
+
+    ESP_LOGD(TAG, "reading data");
 
     // read data packet
     pn532__read_data(obj, pn532_packet_buf, 20);

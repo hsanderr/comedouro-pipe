@@ -16,6 +16,8 @@
         "*.ejs": "html",
         "sdkconfig.h": "c",
         "app_nvs.h": "c",
-        "pn532.h": "c"
+        "pn532.h": "c",
+        "app_pn532.h": "c",
+        "global_prm.h": "c"
     }
 }

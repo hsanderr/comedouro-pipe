@@ -1,9 +1,9 @@
 /**
- * @file app_nvs.h
+ * @file file.c
  * @author Henrique Sander Lourenço
  * @brief
  * @version 0.1
- * @date 2023-09-23
+ * @date yyyy-mm-dd
  *
  * @copyright    Copyright 2023 Henrique Sander Lourenço
 
@@ -18,36 +18,41 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-
- *
  *
  */
 
-#ifndef APP_NVS_H
-#define APP_NVS_H
-
 //------------------ 3rd party Includes Start ------------------//
 
+#include "sdkconfig.h"
+#include "esp_log.h"
 #include "esp_err.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 
-//------------------ 3rd-part Includes End ------------------//
+//------------------ 3rd party Includes End ------------------//
 
 //------------------ Typedefs Start ------------------//
 
-typedef enum
-{
-  nvs_int8,
-  nvs_uint8
-} nvs_var_type_t;
-
 //------------------ Typedefs End ------------------//
 
-//------------------ Functions declarations Start ------------------//
+//------------------ App Includes Start ------------------//
 
-esp_err_t nvs__init(void);
-void nvs__read(void *var, char *key, nvs_var_type_t var_type);
-void nvs__write(void *var, char *key, nvs_var_type_t var_type);
+//------------------ App Includes End ------------------//
 
-//------------------ Functions declarations End ------------------//
+//------------------ Defines Start ------------------//
 
-#endif
+//------------------ Defines End ------------------//
+
+//------------------ Variables declarations Start ------------------//
+
+static char *TAG = "TagName";
+
+//------------------ Variables declarations End ------------------//
+
+//------------------ Functions prototypes Start ------------------//
+
+//------------------ Functions prototypes End ------------------//
+
+//------------------ Functions definitions Start ------------------//
+
+//------------------ Functions definitions End ------------------//
