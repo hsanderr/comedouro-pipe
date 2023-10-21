@@ -40,7 +40,7 @@
 
 // >>>>>>>>>>>>>>>>>>>> Other includes
 
-// >>>>>>>>>>>>>>>>>>>> Definitions
+// >>>>>>>>>>>>>>>>>>>> Defines
 
 // >>>>>>>>>>>>>>>>>>>> Global declarations
 

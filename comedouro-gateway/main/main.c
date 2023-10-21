@@ -35,6 +35,7 @@
 // >>>>>>>>>>>>>>>>>>>> App includes
 
 #include "user_nvs.h"
+#include "user_pn532.h"
 
 // >>>>>>>>>>>>>>>>>>>> ESP-IDF includes
 
@@ -42,7 +43,7 @@
 
 // >>>>>>>>>>>>>>>>>>>> Other includes
 
-// >>>>>>>>>>>>>>>>>>>> Definitions
+// >>>>>>>>>>>>>>>>>>>> Defines
 
 #define MAIN_LOOP_DELAY_MS 1000 ///< Main task delay in miliseconds
 
@@ -55,11 +56,13 @@ static void main__init(void);
 
 void app_main(void)
 {
+    uint8_t uid[7] = {0};
     ESP_LOGI(TAG, "Hello world! Initializing main modules...");
     main__init();
     while (1)
     {
         ESP_LOGD(TAG, "Inside main loop!");
+        pn532__read_uid(uid);
         vTaskDelay(pdMS_TO_TICKS(MAIN_LOOP_DELAY_MS));
     }
 }
@@ -73,9 +76,15 @@ void app_main(void)
 static void main__init(void)
 {
     esp_err_t err;
+    int8_t uid_len;
     err = nvs__init();
     if (err != ESP_OK)
     {
         ESP_LOGE(TAG, "Error %d initializing NVS", err);
+    }
+    err = pn532__init();
+    if (err != ESP_OK)
+    {
+        ESP_LOGE(TAG, "Error %d initializing PN532 communication", err);
     }
 }

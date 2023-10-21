@@ -1,17 +1,17 @@
 /**
  * @file user_pn532.h
  * @author Henrique Sander Lourenço
- * @brief
+ * @brief Header file for user_pn532.c file.
  * @version 0.1
  * @date 2023-10-15
  *
- * @copyright    Copyright 2023 Henrique Sander Lourenço
+ * @copyright Copyright 2023 Henrique Sander Lourenço
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+	   http://www.apache.org/licenses/LICENSE-2.0
 
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,40 +24,23 @@
 #ifndef USER_PN532_H
 #define USER_PN532_H
 
-//------------------ 3rd party Includes Start ------------------//
+// >>>>>>>>>>>>>>>>>>>> Common includes
 
 #include "esp_err.h"
-#include "app_pn532.h"
 
-//------------------ 3rd party Includes End ------------------//
+// >>>>>>>>>>>>>>>>>>>> App includes
 
-//------------------ Typedefs Start ------------------//
+// >>>>>>>>>>>>>>>>>>>> ESP-IDF includes
 
-//------------------ Typedefs End ------------------//
+// >>>>>>>>>>>>>>>>>>>> libc includes
 
-//------------------ App Includes Start ------------------//
+// >>>>>>>>>>>>>>>>>>>> Other includes
 
-//------------------ App Includes End ------------------//
+// >>>>>>>>>>>>>>>>>>>> Defines
 
-//------------------ Defines Start ------------------//
+// >>>>>>>>>>>>>>>>>>>> Declarations
 
-//------------------ Defines End ------------------//
-
-//------------------ Variables declarations Start ------------------//
-
-extern pn532_t nfc;
-
-//------------------ Variables declarations End ------------------//
-
-//------------------ Functions prototypes Start ------------------//
-
-//------------------ Functions prototypes End ------------------//
-
-//------------------ Functions declarations Start ------------------//
-
-esp_err_t pn532hl__init(void);
-int8_t pn532hl__read_uid(uint8_t uid[]);
-
-//------------------ Functions declarations End ------------------//
+esp_err_t pn532__init(void);
+int8_t pn532__read_uid(uint8_t uid[]);
 
 #endif

@@ -44,7 +44,7 @@
 
 // >>>>>>>>>>>>>>>>>>>> Other includes
 
-// >>>>>>>>>>>>>>>>>>>> Definitions
+// >>>>>>>>>>>>>>>>>>>> Defines
 
 #define STORAGE_NAMESPACE "storage" ///< Namespace for NVS storage
 

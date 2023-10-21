@@ -1,4 +1,5 @@
 {
+    "C_Cpp.intelliSenseEngine": "default",
     "idf.espIdfPathWin": "c:\\Users\\Henrique\\esp_v5.1.1\\esp-idf",
     "idf.pythonBinPathWin": "C:\\Users\\Henrique\\.espressif\\python_env\\idf5.1_py3.11_env\\Scripts\\python.exe",
     "idf.toolsPathWin": "C:\\Users\\Henrique\\.espressif",
