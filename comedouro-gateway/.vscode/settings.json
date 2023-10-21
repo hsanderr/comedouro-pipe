@@ -19,6 +19,7 @@
         "user_nvs.h": "c",
         "pn532.h": "c",
         "app_pn532.h": "c",
-        "global_prm.h": "c"
+        "global_prm.h": "c",
+        "user_pn532.h": "c"
     }
 }
