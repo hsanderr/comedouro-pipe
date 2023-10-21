@@ -1,5 +1,5 @@
 /**
- * @file app_pn532_hl.h
+ * @file user_pn532.h
  * @author Henrique Sander Lourenço
  * @brief
  * @version 0.1
@@ -21,8 +21,8 @@
  *
  */
 
-#ifndef APP_PN532_HL_H
-#define APP_PN532_HL_H
+#ifndef USER_PN532_H
+#define USER_PN532_H
 
 //------------------ 3rd party Includes Start ------------------//
 

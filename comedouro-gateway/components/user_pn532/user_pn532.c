@@ -1,5 +1,5 @@
 /**
- * @file app_pn532_hl.c
+ * @file user_pn532.c
  * @author Henrique Sander Lourenço
  * @brief
  * @version 0.1
@@ -38,12 +38,16 @@
 
 //------------------ App Includes Start ------------------//
 
-#include "global_prm.h"
 #include "app_pn532.h"
 
 //------------------ App Includes End ------------------//
 
 //------------------ Defines Start ------------------//
+
+#define PN532_CLK 18  ///< PN532 clock GPIO number
+#define PN532_MOSI 23 ///< PN532 MOSI GPIO number
+#define PN532_CS 5    ///< PN532 chip select GPIO number
+#define PN532_MISO 19 ///< PN532 MISO GPIO number
 
 //------------------ Defines End ------------------//
 

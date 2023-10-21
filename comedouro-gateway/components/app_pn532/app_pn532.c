@@ -41,7 +41,6 @@
 
 //------------------ App Includes Start ------------------//
 
-#include "global_prm.h"
 #include "app_pn532.h"
 
 //------------------ 3rd party Includes End ------------------//

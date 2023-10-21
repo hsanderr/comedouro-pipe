@@ -1,11 +1,11 @@
 /**
- * @file app_nvs.h
+ * @file user_nvs.h
  * @author Henrique Sander Lourenço
- * @brief
+ * @brief Header file for user_nvs.c file.
  * @version 0.1
  * @date 2023-09-23
  *
- * @copyright    Copyright 2023 Henrique Sander Lourenço
+ * @copyright Copyright 2023 Henrique Sander Lourenço
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -23,31 +23,33 @@
  *
  */
 
-#ifndef APP_NVS_H
-#define APP_NVS_H
+#ifndef USER_NVS_H
+#define USER_NVS_H
 
-//------------------ 3rd party Includes Start ------------------//
+// >>>>>>>>>>>>>>>>>>>> Common includes
 
 #include "esp_err.h"
 
-//------------------ 3rd-part Includes End ------------------//
+// >>>>>>>>>>>>>>>>>>>> App includes
 
-//------------------ Typedefs Start ------------------//
+// >>>>>>>>>>>>>>>>>>>> ESP-IDF includes
+
+// >>>>>>>>>>>>>>>>>>>> libc includes
+
+// >>>>>>>>>>>>>>>>>>>> Other includes
+
+// >>>>>>>>>>>>>>>>>>>> Definitions
 
 typedef enum
 {
   nvs_int8,
   nvs_uint8
-} nvs_var_type_t;
+} nvs_entry_type_t;
 
-//------------------ Typedefs End ------------------//
-
-//------------------ Functions declarations Start ------------------//
+// >>>>>>>>>>>>>>>>>>>> Declarations
 
 esp_err_t nvs__init(void);
-void nvs__read(void *var, char *key, nvs_var_type_t var_type);
-void nvs__write(void *var, char *key, nvs_var_type_t var_type);
-
-//------------------ Functions declarations End ------------------//
+void nvs__read(void *var, char *key, nvs_entry_type_t var_type);
+void nvs__write(void *var, char *key, nvs_entry_type_t var_type);
 
 #endif

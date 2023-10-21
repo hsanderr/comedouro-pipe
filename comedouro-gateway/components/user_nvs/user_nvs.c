@@ -1,11 +1,11 @@
 /**
- * @file app_nvs.c
+ * @file user_nvs.c
  * @author Henrique Sander Lourenço
- * @brief
+ * @brief Functions to interact with NVS.
  * @version 0.1
  * @date 2023-09-23
  *
- * @copyright    Copyright 2023 Henrique Sander Lourenço
+ * @copyright Copyright 2023 Henrique Sander Lourenço
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -23,45 +23,43 @@
  *
  */
 
-//------------------ 3rd party Includes Start ------------------//
+// >>>>>>>>>>>>>>>>>>>> Common includes
 
 #include "sdkconfig.h"
+#define LOG_LOCAL_LEVEL ESP_LOG_INFO // set log level (see esp_log_level_t)
 #include "esp_log.h"
-#include "nvs_flash.h"
 #include "esp_err.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 
-//------------------ 3rd party Includes End ------------------//
+// >>>>>>>>>>>>>>>>>>>> App includes
 
-//------------------ App Includes Start ------------------//
+#include "user_nvs.h"
 
-#include "app_nvs.h"
+// >>>>>>>>>>>>>>>>>>>> ESP-IDF includes
 
-//------------------ 3rd party Includes End ------------------//
+#include "nvs_flash.h"
 
-//------------------ Defines Start ------------------//
+// >>>>>>>>>>>>>>>>>>>> libc includes
+
+// >>>>>>>>>>>>>>>>>>>> Other includes
+
+// >>>>>>>>>>>>>>>>>>>> Definitions
 
 #define STORAGE_NAMESPACE "storage" ///< Namespace for NVS storage
 
-//------------------ Defines End ------------------//
-
-//------------------ Variables declarations Start ------------------//
+// >>>>>>>>>>>>>>>>>>>> Global declarations
 
 static const char *TAG = "NvsModule";
 
-//------------------ Variables declarations End ------------------//
-
-//------------------ Functions prototypes Start ------------------//
-
-esp_err_t nvs__init(void);
-
-//------------------ Functions prototypes End ------------------//
-
-//------------------ Functions definitions Start ------------------//
+// >>>>>>>>>>>>>>>>>>>> User-defined functions
 
 /**
- * @brief Initialize NVS.
+ * @brief Initialize NVS module
  *
  * @return esp_err_t
+ * @retval ESP_OK if NVS initialization is successful
+ * @retval ESP_FAIL if NVS initialization fails
  */
 esp_err_t nvs__init(void)
 {
@@ -69,22 +67,20 @@ esp_err_t nvs__init(void)
     if (err != ESP_OK)
     {
         ESP_LOGE(TAG, "Error %d initializing NVS: %s", err, esp_err_to_name(err));
+        return ESP_FAIL;
     }
-    else
-    {
-        ESP_LOGI(TAG, "NVS partition successfully initialized");
-    }
-    return err;
+    ESP_LOGI(TAG, "NVS partition successfully initialized!");
+    return ESP_OK;
 }
 
 /**
- * @brief Read NVS entry.
+ * @brief Read NVS entry
  *
- * @param var Pointer to variable where the value will be stored.
- * @param key Key to be read.
- * @param var_type Type of variable.
+ * @param var Pointer to variable where the value will be stored
+ * @param key Key to be read
+ * @param var_type Type of variable
  */
-void nvs__read(void *var, char *key, nvs_var_type_t var_type)
+void nvs__read(void *var, char *key, nvs_entry_type_t var_type)
 {
     nvs_handle_t my_handle;
     esp_err_t err;
@@ -137,13 +133,13 @@ void nvs__read(void *var, char *key, nvs_var_type_t var_type)
 }
 
 /**
- * @brief Write to NVS entry.
+ * @brief Write to NVS entry
  *
- * @param var Variable to be written.
- * @param key Key to be written.
- * @param var_type Type of variable.
+ * @param var Variable to be written
+ * @param key Key to be written
+ * @param var_type Type of variable
  */
-void nvs__write(void *var, char *key, nvs_var_type_t var_type)
+void nvs__write(void *var, char *key, nvs_entry_type_t var_type)
 {
     nvs_handle_t my_handle;
     esp_err_t err;

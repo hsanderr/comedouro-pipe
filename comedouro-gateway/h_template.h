@@ -1,11 +1,11 @@
 /**
- * @file file.h
+ * @file file_name.h
  * @author Henrique Sander Lourenço
- * @brief
+ * @brief Description.
  * @version 0.1
  * @date yyyy-mm-dd
  *
- * @copyright    Copyright 2023 Henrique Sander Lourenço
+ * @copyright Copyright 2023 Henrique Sander Lourenço
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -18,38 +18,28 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+
+ *
  *
  */
 
 #ifndef FILE_H
 #define FILE_H
 
-//------------------ 3rd party Includes Start ------------------//
+// >>>>>>>>>>>>>>>>>>>> Common includes
 
-//------------------ 3rd party Includes End ------------------//
+#include "esp_err.h"
 
-//------------------ App Includes Start ------------------//
+// >>>>>>>>>>>>>>>>>>>> App includes
 
-//------------------ 3rd party Includes End ------------------//
+// >>>>>>>>>>>>>>>>>>>> ESP-IDF includes
 
-//------------------ Defines Start ------------------//
+// >>>>>>>>>>>>>>>>>>>> libc includes
 
-//------------------ Defines End ------------------//
+// >>>>>>>>>>>>>>>>>>>> Other includes
 
-//------------------ Variables declarations Start ------------------//
+// >>>>>>>>>>>>>>>>>>>> Definitions
 
-//------------------ Variables declarations End ------------------//
-
-//------------------ Functions prototypes Start ------------------//
-
-//------------------ Functions prototypes End ------------------//
-
-//------------------ Main Start ------------------//
-
-//------------------ Main End ------------------//
-
-//------------------ Functions declarations Start ------------------//
-
-//------------------ Functions declarations End ------------------//
+// >>>>>>>>>>>>>>>>>>>> Declarations
 
 #endif
