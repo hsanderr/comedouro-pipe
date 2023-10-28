@@ -37,6 +37,7 @@
 #include "main_get_page.h"
 #include "main_post_page.h"
 #include "user_utils.h"
+#include "user_nvs.h"
 
 // >>>>>>>>>>>>>>>>>>>> ESP-IDF includes
 
@@ -100,6 +101,16 @@ static esp_err_t httpd__post_main(httpd_req_t *req)
 	}
 	httpd_resp_send(req, form_submission_res_html, HTTPD_RESP_USE_STRLEN);
 	ESP_LOGI(TAG, "Content: %s", content);
+
+	char uid[9] = {0};
+	for (uint8_t i = 0; i < 8; i++)
+	{
+		uid[i] = content[i + 4];
+	}
+
+	ESP_LOGI(TAG, "UID that will be written: %s", uid);
+	nvs__write_uid(uid);
+
 	return ESP_OK;
 }
 

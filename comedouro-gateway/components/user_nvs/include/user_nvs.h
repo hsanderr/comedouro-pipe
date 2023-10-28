@@ -43,13 +43,16 @@
 typedef enum
 {
   nvs_int8,
-  nvs_uint8
+  nvs_uint8,
+  nvs_str,
 } nvs_entry_type_t;
 
 // >>>>>>>>>>>>>>>>>>>> Declarations
 
 esp_err_t nvs__init(void);
-void nvs__read(void *var, char *key, nvs_entry_type_t var_type);
+void nvs__read(void *var, char *key, nvs_entry_type_t var_type, size_t len);
 void nvs__write(void *var, char *key, nvs_entry_type_t var_type);
+void nvs__write_uid(char *uid);
+void nvs__read_uid(char *uid);
 
 #endif

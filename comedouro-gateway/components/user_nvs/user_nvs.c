@@ -47,6 +47,7 @@
 // >>>>>>>>>>>>>>>>>>>> Defines
 
 #define STORAGE_NAMESPACE "storage" ///< Namespace for NVS storage
+#define UID_ENTRY_KEY "uid"
 
 // >>>>>>>>>>>>>>>>>>>> Global declarations
 
@@ -79,8 +80,9 @@ esp_err_t nvs__init(void)
  * @param var Pointer to variable where the value will be stored
  * @param key Key to be read
  * @param var_type Type of variable
+ * @param len Length of variableif var_type is nvs_str
  */
-void nvs__read(void *var, char *key, nvs_entry_type_t var_type)
+void nvs__read(void *var, char *key, nvs_entry_type_t var_type, size_t len)
 {
     nvs_handle_t my_handle;
     esp_err_t err;
@@ -127,6 +129,26 @@ void nvs__read(void *var, char *key, nvs_entry_type_t var_type)
                 ESP_LOGI(TAG, "Success reading from NVS");
             }
         }
+    case nvs_str:
+        ESP_LOGI(TAG, "Reading str from NVS");
+        err = nvs_open(STORAGE_NAMESPACE, NVS_READWRITE, &my_handle);
+        if (err != ESP_OK)
+        {
+            ESP_LOGE(TAG, "Error %d opening NVS: %s", err, esp_err_to_name(err));
+        }
+        else
+        {
+            ESP_LOGI(TAG, "Success opening NVS");
+            err = nvs_get_str(my_handle, key, var, &len);
+            if (err != ESP_OK)
+            {
+                ESP_LOGE(TAG, "Error %d reading from NVS: %s", err, esp_err_to_name(err));
+            }
+            else
+            {
+                ESP_LOGI(TAG, "Success reading from NVS, len=%d", (int)len);
+            }
+        }
     default:
         break;
     }
@@ -155,7 +177,7 @@ void nvs__write(void *var, char *key, nvs_entry_type_t var_type)
         else
         {
             ESP_LOGI(TAG, "Success opening NVS");
-            err = nvs_set_i8(my_handle, key, *((int8_t *)var));
+            err = nvs_set_u8(my_handle, key, *((int8_t *)var));
             if (err != ESP_OK)
             {
                 ESP_LOGE(TAG, "Error %d writing to NVS: %s", err, esp_err_to_name(err));
@@ -186,9 +208,40 @@ void nvs__write(void *var, char *key, nvs_entry_type_t var_type)
                 ESP_LOGI(TAG, "Success writing to NVS");
             }
         }
+    case nvs_str:
+        ESP_LOGI(TAG, "Writing str to NVS");
+        err = nvs_open(STORAGE_NAMESPACE, NVS_READWRITE, &my_handle);
+        if (err != ESP_OK)
+        {
+            ESP_LOGE(TAG, "Error %d opening NVS: %s", err, esp_err_to_name(err));
+        }
+        else
+        {
+            ESP_LOGI(TAG, "Success opening NVS");
+            err = nvs_set_str(my_handle, key, (char *)&var[0]);
+            if (err != ESP_OK)
+            {
+                ESP_LOGE(TAG, "Error %d writing to NVS: %s", err, esp_err_to_name(err));
+            }
+            else
+            {
+                ESP_LOGI(TAG, "Success writing to NVS");
+            }
+        }
     default:
         break;
     }
+}
+
+void nvs__write_uid(char *uid)
+{
+    nvs__write(uid, UID_ENTRY_KEY, nvs_str);
+}
+
+void nvs__read_uid(char *uid)
+{
+    size_t len = 9;
+    nvs__read(uid, UID_ENTRY_KEY, nvs_str, len);
 }
 
 //------------------ Functions definitions End ------------------//

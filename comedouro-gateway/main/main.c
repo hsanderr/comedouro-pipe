@@ -78,7 +78,6 @@ void app_main(void)
 static void main__init(void)
 {
     esp_err_t err;
-    int8_t uid_len;
     err = nvs__init();
     if (err != ESP_OK)
     {
