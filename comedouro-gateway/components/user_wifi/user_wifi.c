@@ -145,12 +145,6 @@ esp_err_t wifi__init(void)
 	}
 
 	esp_netif_create_default_wifi_ap();
-	// err = esp_netif_create_default_wifi_ap();
-	// if (err != ESP_OK)
-	// {
-	// 	ESP_LOGE(TAG, "Error creating default Wi-Fi AP");
-	// 	return ESP_FAIL;
-	// }
 
 	err = esp_event_handler_instance_register(WIFI_EVENT,
 											  ESP_EVENT_ANY_ID,
