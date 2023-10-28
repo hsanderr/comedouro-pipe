@@ -34,6 +34,8 @@
 
 // >>>>>>>>>>>>>>>>>>>> App includes
 
+#include "user_pn532.h"
+
 // >>>>>>>>>>>>>>>>>>>> ESP-IDF includes
 
 // >>>>>>>>>>>>>>>>>>>> libc includes
@@ -42,6 +44,35 @@
 
 // >>>>>>>>>>>>>>>>>>>> Defines
 
+#define TASK_DELAY_MS 1000 ///< Task delay in miliseconds
+
 // >>>>>>>>>>>>>>>>>>>> Global declarations
 
+static const char *TAG = "pn532TaskModule";
+
 // >>>>>>>>>>>>>>>>>>>> User-defined functions
+
+/**
+ * @brief Task to keep trying to read tags
+ *
+ * @param params
+ */
+void task__pn532(void *params)
+{
+	ESP_LOGI(TAG, "PN532 task begin");
+	for (;;)
+	{
+		uint8_t uid[4] = {0};
+		int8_t uid_len = 0;
+		uid_len = pn532__read_uid(uid);
+		if (uid_len == 4)
+		{
+			if (pn532__is_uid_auth(uid))
+			{
+				ESP_LOGI(TAG, "Opening feeder...");
+			}
+		}
+		vTaskDelay(pdMS_TO_TICKS(TASK_DELAY_MS));
+	}
+	vTaskDelete(NULL);
+}

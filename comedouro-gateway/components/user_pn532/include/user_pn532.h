@@ -11,7 +11,7 @@
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
 
-	   http://www.apache.org/licenses/LICENSE-2.0
+     http://www.apache.org/licenses/LICENSE-2.0
 
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
@@ -42,5 +42,8 @@
 
 esp_err_t pn532__init(void);
 int8_t pn532__read_uid(uint8_t uid[]);
+uint8_t pn532__is_uid_auth(uint8_t uid[]);
+void pn532__authorize_uid(uint8_t uid[]);
+void pn532__authorize_uid_str(char uid[]);
 
 #endif

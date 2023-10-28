@@ -33,10 +33,13 @@
 // >>>>>>>>>>>>>>>>>>>> App includes
 
 #include "pn532.h"
+#include "user_nvs.h"
 
 // >>>>>>>>>>>>>>>>>>>> ESP-IDF includes
 
 // >>>>>>>>>>>>>>>>>>>> libc includes
+
+#include "string.h"
 
 // >>>>>>>>>>>>>>>>>>>> Other includes
 
@@ -50,7 +53,8 @@
 // >>>>>>>>>>>>>>>>>>>> Global declarations
 
 static char *TAG = "UserPn532Module";
-pn532_t nfc;
+pn532_t nfc;				  ///< NFC tag structure
+char authorized_uid[9] = {0}; ///< authorized UID string
 
 // >>>>>>>>>>>>>>>>>>>> User-defined functions
 
@@ -81,6 +85,10 @@ esp_err_t pn532__init(void)
 	ESP_LOGI(TAG, "Found chip PN5%2.2x", (unsigned int)((fw_ver_ret >> 24) & 0xff));
 	ESP_LOGI(TAG, "Firmware version: %d,  firmware revision: %d",
 			 (int)((fw_ver_ret >> 16) & 0xff), (int)((fw_ver_ret >> 8) & 0xff));
+
+	nvs__read_uid(authorized_uid);
+	ESP_LOGI(TAG, "Authorized UID: %s", authorized_uid);
+
 	return ESP_OK;
 }
 
@@ -96,13 +104,13 @@ esp_err_t pn532__init(void)
 int8_t pn532__read_uid(uint8_t uid[])
 {
 	ESP_LOGD(TAG, "Checking for ISO14443-3A card or tag...");
-	uint8_t len; // store length of the UID read (4 or 7 bytes depending on ISO14443A card type)
+	uint8_t len = 0; // store length of the UID read (4 or 7 bytes depending on ISO14443A card type)
 
 	if (pn532_readPassiveTargetID(&nfc, PN532_MIFARE_ISO14443A, uid, &len, 1000))
 	{
 		// Display card/tag information
 		ESP_LOGI(TAG, "Found an ISO14443A card or tag");
-		ESP_LOGI(TAG, "UID Length: %d bytes", len);
+		ESP_LOGI(TAG, "UID Length: %d bytes", (int)len);
 		if (len == 4)
 		{
 			ESP_LOGI(TAG, "UID Value: %2.2x:%2.2x:%2.2x:%2.2x",
@@ -126,4 +134,62 @@ int8_t pn532__read_uid(uint8_t uid[])
 		ESP_LOGD(TAG, "Timed out waiting for a card");
 		return ESP_FAIL;
 	}
+}
+
+/**
+ * @brief Check if UID is authorized
+ *
+ * @param uid Array containing the UID that will be checked
+ * @return uint8_t
+ * @retval 0 if not authorized
+ * @retval 1 if authorized
+ */
+uint8_t pn532__is_uid_auth(uint8_t uid[])
+{
+	char uid_str[9] = {0}; // UID in string format
+	if (strlen(authorized_uid) != 8)
+	{
+		ESP_LOGW(TAG, "No valid authorized UID found");
+		return 0;
+	}
+	else
+	{
+		sprintf(uid_str, "%2.2x%2.2x%2.2x%2.2x", uid[0], uid[1], uid[2], uid[3]);
+		ESP_LOGI(TAG, "Resulting UID string: %s", uid_str);
+		if (!strcmp(uid_str, authorized_uid))
+		{
+			ESP_LOGI(TAG, "Tag is authorized!!!");
+			return 1;
+		}
+		else
+		{
+			ESP_LOGI(TAG, "Unauthorized tag!!!");
+			return 0;
+		}
+	}
+}
+
+/**
+ * @brief Authorize UID in uint8 array format
+ *
+ * @param uid Array containing the UID to be authorized
+ */
+void pn532__authorize_uid_uint8(uint8_t uid[])
+{
+	char uid_str[9] = {0}; // UID in string format
+	sprintf(uid_str, "%2.2x%2.2x%2.2x%2.2x", uid[0], uid[1], uid[2], uid[3]);
+	ESP_LOGI(TAG, "Resulting UID string: %s", uid_str);
+	strcpy(authorized_uid, uid_str);
+	ESP_LOGI(TAG, "Authorized UID %s", authorized_uid);
+}
+
+/**
+ * @brief Authorize UID in string format
+ *
+ * @param uid String containing the UID to be authorized
+ */
+void pn532__authorize_uid_str(char uid[])
+{
+	strcpy(authorized_uid, uid);
+	ESP_LOGI(TAG, "Authorized UID %s", authorized_uid);
 }

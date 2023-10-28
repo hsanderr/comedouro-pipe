@@ -1,7 +1,7 @@
 /**
- * @file task_pn532.h
+ * @file task_state_machine.c
  * @author Henrique Sander Lourenço
- * @brief Header file for task_pn532.c file.
+ * @brief State machine task
  * @version 0.1
  * @date 2023-10-28
  *
@@ -23,14 +23,18 @@
  *
  */
 
-#ifndef TASK_PN532_H
-#define TASK_PN532_H
-
 // >>>>>>>>>>>>>>>>>>>> Common includes
 
+#include "sdkconfig.h"
+#define LOG_LOCAL_LEVEL ESP_LOG_INFO // set log level (see esp_log_level_t)
+#include "esp_log.h"
 #include "esp_err.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 
 // >>>>>>>>>>>>>>>>>>>> App includes
+
+#include "task_pn532.h"
 
 // >>>>>>>>>>>>>>>>>>>> ESP-IDF includes
 
@@ -40,8 +44,27 @@
 
 // >>>>>>>>>>>>>>>>>>>> Defines
 
-// >>>>>>>>>>>>>>>>>>>> Declarations
+#define TASK_DELAY_MS 1000 ///< Task delay in miliseconds
 
-void task__pn532(void *params);
+// >>>>>>>>>>>>>>>>>>>> Global declarations
 
-#endif
+static const char *TAG = "StateMachineTaskModule";
+
+// >>>>>>>>>>>>>>>>>>>> User-defined functions
+
+/**
+ * @brief Task to keep trying to read tags
+ *
+ * @param params
+ */
+void task__state_machine(void *params)
+{
+	ESP_LOGI(TAG, "State machine task begin");
+	xTaskCreate(task__pn532, "task_pn532", 2000, NULL, 0, &pn532_task_handle);
+	for (;;)
+	{
+
+		vTaskDelay(pdMS_TO_TICKS(TASK_DELAY_MS));
+	}
+	vTaskDelete(NULL);
+}
