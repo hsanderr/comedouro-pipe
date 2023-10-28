@@ -1,9 +1,9 @@
 /**
- * @file file_name.h
+ * @file utils.h
  * @author Henrique Sander Lourenço
- * @brief Description.
+ * @brief General utilities header.
  * @version 0.1
- * @date yyyy-mm-dd
+ * @date 2023-10-28
  *
  * @copyright Copyright 2023 Henrique Sander Lourenço
 
@@ -11,7 +11,7 @@
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+     http://www.apache.org/licenses/LICENSE-2.0
 
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef FILE_H
-#define FILE_H
+#ifndef UTILS_H
+#define UTILS_H
 
 // >>>>>>>>>>>>>>>>>>>> Common includes
 
@@ -39,6 +39,14 @@
 // >>>>>>>>>>>>>>>>>>>> Other includes
 
 // >>>>>>>>>>>>>>>>>>>> Defines
+
+// global parameters
+
+#define PRODUCT_ID "000" ///< Product unique identifier string
+
+// math
+
+#define MIN(X, Y) (((X) < (Y)) ? (X) : (Y)) ///< Calculate minimum
 
 // >>>>>>>>>>>>>>>>>>>> Declarations
 

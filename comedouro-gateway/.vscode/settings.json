@@ -1,4 +1,5 @@
 {
+    "C_Cpp.intelliSenseEngine": "default",
     "idf.espIdfPathWin": "c:\\Users\\Henrique\\esp_v5.1.1\\esp-idf",
     "idf.pythonBinPathWin": "C:\\Users\\Henrique\\.espressif\\python_env\\idf5.1_py3.11_env\\Scripts\\python.exe",
     "idf.toolsPathWin": "C:\\Users\\Henrique\\.espressif",
@@ -15,9 +16,11 @@
     "files.associations": {
         "*.ejs": "html",
         "sdkconfig.h": "c",
-        "app_nvs.h": "c",
+        "user_nvs.h": "c",
         "pn532.h": "c",
         "app_pn532.h": "c",
-        "global_prm.h": "c"
+        "global_prm.h": "c",
+        "user_pn532.h": "c",
+        "main_post_page.h": "c"
     }
 }

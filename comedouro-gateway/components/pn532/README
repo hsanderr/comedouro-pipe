@@ -1,0 +1,7 @@
+# Considerations on pn532 component
+
+Component adapted from https://github.com/thanhbinh89/pn532-esp-idf
+
+Modifications:
+- CMakeLists.txt was modified to match de rest of the project's CMakeLists.txt files and to add "driver" to REQUIRES.
+- gpio_pad_select_gpio() functions were commented, because they do not exist anymore.

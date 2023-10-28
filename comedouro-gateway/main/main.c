@@ -34,15 +34,20 @@
 
 // >>>>>>>>>>>>>>>>>>>> App includes
 
-#include "global_prm.h"
-#include "app_nvs.h"
-#include "app_pn532.h"
-#include "app_pn532_hl.h"
-#include "app_web_server.h"
+#include "user_nvs.h"
+#include "user_pn532.h"
+#include "user_wifi.h"
+#include "user_httpd.h"
 
-// >>>>>>>>>>>>>>>>>>>> Definitions
+// >>>>>>>>>>>>>>>>>>>> ESP-IDF includes
 
-#define MAIN_LOOP_DELAY_MS 10 ///< Main task delay in miliseconds
+// >>>>>>>>>>>>>>>>>>>> libc includes
+
+// >>>>>>>>>>>>>>>>>>>> Other includes
+
+// >>>>>>>>>>>>>>>>>>>> Defines
+
+#define MAIN_LOOP_DELAY_MS 1000 ///< Main task delay in miliseconds
 
 // >>>>>>>>>>>>>>>>>>>> Global declarations
 
@@ -53,24 +58,13 @@ static void main__init(void);
 
 void app_main(void)
 {
-    ESP_LOGI(TAG, "Hello world! Initializing modules...");
+    uint8_t uid[7] = {0};
+    ESP_LOGI(TAG, "Hello world! Initializing main modules...");
     main__init();
     while (1)
     {
-        uint8_t uid[10] = {0};
-        int8_t len = pn532hl__read_uid(uid);
-        if (len == ESP_FAIL)
-        {
-            ESP_LOGE(TAG, "Could not read UID");
-        }
-        if (uid[0] == 0x50 && uid[1] == 0x6c && uid[2] == 0x93 && uid[3] == 0x1e)
-        {
-            ESP_LOGI(TAG, "Authorized tag found! Opening lid...");
-        }
-        else
-        {
-            ESP_LOGW(TAG, "Unauthorized tag found!");
-        }
+        ESP_LOGD(TAG, "Inside main loop!");
+        pn532__read_uid(uid);
         vTaskDelay(pdMS_TO_TICKS(MAIN_LOOP_DELAY_MS));
     }
 }
@@ -78,21 +72,31 @@ void app_main(void)
 // >>>>>>>>>>>>>>>>>>>> User-defined functions
 
 /**
- * @brief Initialize necessary modules.
+ * @brief Initialize necessary modules
  *
  */
 static void main__init(void)
 {
     esp_err_t err;
+    int8_t uid_len;
     err = nvs__init();
     if (err != ESP_OK)
     {
-        ESP_LOGE(TAG, "Error %d initializing NVS", err);
+        ESP_LOGE(TAG, "Error initializing NVS");
     }
-    err = pn532hl__init();
+    err = pn532__init();
     if (err != ESP_OK)
     {
-        ESP_LOGE(TAG, "Error %d initializing PN532", err);
+        ESP_LOGE(TAG, "Error initializing PN532 communication");
     }
-    webserver__init();
+    err = wifi__init();
+    if (err != ESP_OK)
+    {
+        ESP_LOGE(TAG, "Error initializing Wi-Fi");
+    }
+    err = httpd__init();
+    if (err != ESP_OK)
+    {
+        ESP_LOGE(TAG, "Error initializing HTTP daemon");
+    }
 }

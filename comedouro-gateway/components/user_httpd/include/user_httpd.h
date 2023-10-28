@@ -1,17 +1,17 @@
 /**
- * @file global_prm.h
+ * @file user_httpd.h
  * @author Henrique Sander Lourenço
- * @brief
+ * @brief Header file for user_httpd.c file.
  * @version 0.1
- * @date 2023-10-08
+ * @date 2023-10-21
  *
- * @copyright    Copyright 2023 Henrique Sander Lourenço
+ * @copyright Copyright 2023 Henrique Sander Lourenço
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+     http://www.apache.org/licenses/LICENSE-2.0
 
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,12 +23,25 @@
  *
  */
 
-#ifndef GLOBAL_PRM_H
-#define GLOBAL_PRM_G
+#ifndef USER_HTTPD_H
+#define USER_HTTPD_H
 
-#define PN532_CLK 18  ///< PN532 clock GPIO number
-#define PN532_MOSI 23 ///< PN532 MOSI GPIO number
-#define PN532_CS 5    ///< PN532 chip select GPIO number
-#define PN532_MISO 19 ///< PN532 MISO GPIO number
+// >>>>>>>>>>>>>>>>>>>> Common includes
+
+#include "esp_err.h"
+
+// >>>>>>>>>>>>>>>>>>>> App includes
+
+// >>>>>>>>>>>>>>>>>>>> ESP-IDF includes
+
+// >>>>>>>>>>>>>>>>>>>> libc includes
+
+// >>>>>>>>>>>>>>>>>>>> Other includes
+
+// >>>>>>>>>>>>>>>>>>>> Defines
+
+// >>>>>>>>>>>>>>>>>>>> Declarations
+
+esp_err_t httpd__init(void);
 
 #endif
