@@ -37,6 +37,7 @@
 #include "user_nvs.h"
 #include "user_pn532.h"
 #include "user_wifi.h"
+#include "user_httpd.h"
 
 // >>>>>>>>>>>>>>>>>>>> ESP-IDF includes
 
@@ -81,17 +82,21 @@ static void main__init(void)
     err = nvs__init();
     if (err != ESP_OK)
     {
-        ESP_LOGE(TAG, "Error %d initializing NVS", err);
+        ESP_LOGE(TAG, "Error initializing NVS");
     }
     err = pn532__init();
     if (err != ESP_OK)
     {
-        ESP_LOGE(TAG, "Error %d initializing PN532 communication", err);
+        ESP_LOGE(TAG, "Error initializing PN532 communication");
     }
-
     err = wifi__init();
     if (err != ESP_OK)
     {
-        ESP_LOGE(TAG, "Error %d initializing Wi-Fi", err);
+        ESP_LOGE(TAG, "Error initializing Wi-Fi");
+    }
+    err = httpd__init();
+    if (err != ESP_OK)
+    {
+        ESP_LOGE(TAG, "Error initializing HTTP daemon");
     }
 }

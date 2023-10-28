@@ -20,6 +20,7 @@
         "pn532.h": "c",
         "app_pn532.h": "c",
         "global_prm.h": "c",
-        "user_pn532.h": "c"
+        "user_pn532.h": "c",
+        "main_post_page.h": "c"
     }
 }

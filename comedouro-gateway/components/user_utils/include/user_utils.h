@@ -1,9 +1,9 @@
 /**
- * @file user_httpd.h
+ * @file utils.h
  * @author Henrique Sander Lourenço
- * @brief Header file for user_httpd.c file.
+ * @brief General utilities header.
  * @version 0.1
- * @date 2023-10-21
+ * @date 2023-10-28
  *
  * @copyright Copyright 2023 Henrique Sander Lourenço
 
@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef USER_HTTPD_H
-#define USER_HTTPD_H
+#ifndef UTILS_H
+#define UTILS_H
 
 // >>>>>>>>>>>>>>>>>>>> Common includes
 
@@ -40,8 +40,14 @@
 
 // >>>>>>>>>>>>>>>>>>>> Defines
 
-// >>>>>>>>>>>>>>>>>>>> Declarations
+// global parameters
 
-esp_err_t httpd__init(void);
+#define PRODUCT_ID "000" ///< Product unique identifier string
+
+// math
+
+#define MIN(X, Y) (((X) < (Y)) ? (X) : (Y)) ///< Calculate minimum
+
+// >>>>>>>>>>>>>>>>>>>> Declarations
 
 #endif

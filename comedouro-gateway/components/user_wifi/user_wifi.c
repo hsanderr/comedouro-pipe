@@ -34,26 +34,31 @@
 
 // >>>>>>>>>>>>>>>>>>>> App includes
 
+#include "user_utils.h"
+
 // >>>>>>>>>>>>>>>>>>>> ESP-IDF includes
 
 #include "esp_wifi.h"
 #include "esp_netif.h"
 #include "esp_event.h"
 #include "esp_mac.h"
+// #include "nvs_flash.h"
+#include "lwip/err.h"
+#include "lwip/sys.h"
 
 // >>>>>>>>>>>>>>>>>>>> libc includes
 
 #include "string.h"
+#include "stdio.h"
 
 // >>>>>>>>>>>>>>>>>>>> Other includes
 
 // >>>>>>>>>>>>>>>>>>>> Defines
 
-#define ESP_WIFI_AP_SSID "PetDog_"			///< AP SSID
-#define ESP_WIFI_AP_PWD "senha123"			///< AP password
-#define ESP_WIFI_AP_CHANNEL 1				///< AP channel
-#define ESP_WIFI_MAX_CONN_TO_AP 1			///< Maximum number of connections to AP
-#define MIN(X, Y) (((X) < (Y)) ? (X) : (Y)) ///< Calculate minimum
+#define ESP_WIFI_AP_SSID "PetDog" PRODUCT_ID ///< AP SSID
+#define ESP_WIFI_AP_PWD "Senha12345"		 ///< AP password
+#define ESP_WIFI_AP_CHANNEL 1				 ///< AP channel
+#define ESP_WIFI_MAX_CONN_TO_AP 1			 ///< Maximum number of connections to AP
 
 // >>>>>>>>>>>>>>>>>>>> Global declarations
 
@@ -98,13 +103,20 @@ static void wifi_event_handler(void *arg, esp_event_base_t event_base,
 esp_err_t wifi__init(void)
 {
 	esp_err_t err;
-	esp_netif_t *netif_instance = NULL; ///< Pointer to netif instance
+
+	// uint8_t mac_addr[6] = {0}; ///< actory-programmed MAC address
+	// char mac_str[64] = {0};
+	// err = esp_efuse_mac_get_default(mac_addr);
+	// if (err != ESP_OK)
+	// {
+	// 	ESP_LOGE(TAG, "Error getting base MAC");
+	// 	return ESP_FAIL;
+	// }
 
 	///< Wi-Fi configuration
 	wifi_config_t wifi_config = {
 		.ap = {
 			.ssid = ESP_WIFI_AP_SSID,
-			.ssid_len = strlen(ESP_WIFI_AP_PWD),
 			.channel = ESP_WIFI_AP_CHANNEL,
 			.password = ESP_WIFI_AP_PWD,
 			.max_connection = ESP_WIFI_MAX_CONN_TO_AP,
@@ -132,12 +144,13 @@ esp_err_t wifi__init(void)
 		return ESP_FAIL;
 	}
 
-	netif_instance = esp_netif_create_default_wifi_ap();
-	if (netif_instance == NULL)
-	{
-		ESP_LOGE(TAG, "Error creating default Wi-Fi AP");
-		return ESP_FAIL;
-	}
+	esp_netif_create_default_wifi_ap();
+	// err = esp_netif_create_default_wifi_ap();
+	// if (err != ESP_OK)
+	// {
+	// 	ESP_LOGE(TAG, "Error creating default Wi-Fi AP");
+	// 	return ESP_FAIL;
+	// }
 
 	err = esp_event_handler_instance_register(WIFI_EVENT,
 											  ESP_EVENT_ANY_ID,
@@ -176,10 +189,6 @@ esp_err_t wifi__init(void)
 		ESP_LOGE(TAG, "Error starting Wi-Fi");
 		return ESP_FAIL;
 	}
-
-	uint8_t mac[6] = {0};
-	esp_base_mac_addr_get(mac);
-	// for ()
 
 	ESP_LOGI(TAG, "Wi-Fi inicializado com sucesso");
 	return ESP_OK;

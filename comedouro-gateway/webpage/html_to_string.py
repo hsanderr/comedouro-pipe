@@ -6,10 +6,16 @@ Program to transform an HTML file into a compatible C string.
 from os import listdir
 from os.path import isfile, join
 
+post = '"\n\n#endif'
 
-def process_html_file(input_file_path, output_file_path):
+
+def process_html_file(input_file_path, output_file_path, define_name):
     try:
         with open(input_file_path, 'r') as input_file, open(output_file_path, 'w') as output_file:
+            define_name_h = '{}_H'.format(define_name)
+            pre = '#ifndef {}\n#define {}\n\n#define {} "'.format(
+                define_name_h, define_name_h, define_name)
+            output_file.write(pre)
             for line in input_file:
                 # Remove leading and trailing white spaces
                 line = line.strip()
@@ -19,15 +25,17 @@ def process_html_file(input_file_path, output_file_path):
 
                 # Write the processed line to the output file
                 output_file.write(line)
+            output_file.write(post)
 
     except FileNotFoundError:
-        print(f"File not found: {input_file_path}")
+        print(f'File not found: {input_file_path}')
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f'An error occurred: {e}')
 
 
-if __name__ == "__main__":
-    files = [f for f in listdir('.') if isfile(join('.', f))]
+if __name__ == '__main__':
+    files = [f for f in listdir('.') if (
+        isfile(join('.', f)) and f.endswith('.html'))]
 
     user_input = ''
     input_msg = 'Select a file:\n'
@@ -44,15 +52,23 @@ if __name__ == "__main__":
 
     print('You selected: ' + files[int(user_input) - 1])
 
-    # input_file_path = input(
-    #     "Enter the relative path of the HTML file: (./web_page.html) ")
-    output_file = input(
-        "Enter the path of the output file: (./output.txt) ")
+    output_file_path = input(
+        'Enter the path of the output file: (../components/user_httpd/include/) ')
 
-    # if input_file_path == '':
-    #     input_file_path = './web_page.html'
+    if output_file_path == '':
+        output_file_path = '../components/user_httpd/include/'
 
-    if output_file == '':
-        output_file = './output.txt'
+    output_file_name = input(
+        'Enter the name of the output file: (output.h) ')
 
-    process_html_file(input_file, output_file)
+    if output_file_name == '':
+        output_file_name = 'output.h'
+
+    output_file = '{}{}'.format(output_file_path, output_file_name)
+
+    define_name = input('Define name: (DEFINE_NAME_EXAMPLE) ')
+
+    if define_name == '':
+        define_name = 'DEFINE_NAME_EXAMPLE'
+
+    process_html_file(input_file, output_file, define_name)
