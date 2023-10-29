@@ -34,6 +34,8 @@
 
 // >>>>>>>>>>>>>>>>>>>> App includes
 
+#include "user_pn532.h"
+
 // >>>>>>>>>>>>>>>>>>>> ESP-IDF includes
 
 // >>>>>>>>>>>>>>>>>>>> libc includes
@@ -42,6 +44,73 @@
 
 // >>>>>>>>>>>>>>>>>>>> Defines
 
+#define TASK_DELAY_MS 500	   ///< Task delay in miliseconds
+#define MAX_READ_TAG_RETRIES 3 ///< Maximum number of retries to read tag after lid is open
+
 // >>>>>>>>>>>>>>>>>>>> Global declarations
 
+static const char *TAG = "pn532TaskModule";
+uint8_t lid_open = 0;
+/* count number of times that no tag or no authorized tag
+is found only when open is lid, indicated by lid_open flag */
+uint8_t no_tag_found_sequence = 0;
+
 // >>>>>>>>>>>>>>>>>>>> User-defined functions
+
+/**
+ * @brief Task to keep trying to read tags
+ *
+ * @param params
+ */
+void task__pn532(void *params)
+{
+	ESP_LOGI(TAG, "PN532 task begin");
+	for (;;)
+	{
+		ESP_LOGI(
+			TAG,
+			"Inside PN532 task, lid_open=%d, no_tag_found_sequence=%d, "
+			"unused words=%d",
+			(int)lid_open,
+			(int)no_tag_found_sequence,
+			(int)uxTaskGetStackHighWaterMark(NULL));
+		uint8_t uid[4] = {0};
+		int8_t uid_len = 0;
+		uid_len = pn532__read_uid(uid);
+		if (uid_len == -1 && lid_open)
+		{ /** this means that no tag was found */
+			no_tag_found_sequence++;
+			if (no_tag_found_sequence > MAX_READ_TAG_RETRIES)
+			{
+				ESP_LOGI(TAG, "Max number of read tag retries exceeded, closing lid...");
+				// close_lid();
+				lid_open = 0;
+			}
+		}
+		else if (uid_len == 4)
+		{
+			if (pn532__is_uid_auth(uid))
+			{
+				no_tag_found_sequence = 0;
+				if (!lid_open)
+				{
+					ESP_LOGI(TAG, "Opening lid...");
+					// open_lid();
+					lid_open = 1;
+				}
+				else
+				{
+					ESP_LOGI(TAG, "Lid is already open");
+				}
+			}
+			else if (lid_open)
+			{
+				ESP_LOGI(TAG, "Unauthorized tag found and lid is open, closing lid...");
+				// close_lid();
+				lid_open = 0;
+			}
+		}
+		vTaskDelay(pdMS_TO_TICKS(TASK_DELAY_MS));
+	}
+	vTaskDelete(NULL);
+}

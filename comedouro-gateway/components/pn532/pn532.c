@@ -388,6 +388,12 @@ bool pn532_readPassiveTargetID(pn532_t *obj, uint8_t cardbaudrate, uint8_t *uid,
     /* Card appears to be Mifare Classic */
     *uidLength = pn532_packetbuffer[12];
 
+    /** MODIFIED */
+    if (*uidLength != 4)
+    {
+        return 0;
+    }
+
     for (uint8_t i = 0; i < pn532_packetbuffer[12]; i++)
     {
         uid[i] = pn532_packetbuffer[13 + i];

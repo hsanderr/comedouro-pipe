@@ -1,9 +1,9 @@
 /**
- * @file file_name.h
+ * @file task_pn532.h
  * @author Henrique Sander Lourenço
- * @brief Description.
+ * @brief Header file for task_pn532.c file.
  * @version 0.1
- * @date yyyy-mm-dd
+ * @date 2023-10-28
  *
  * @copyright Copyright 2023 Henrique Sander Lourenço
 
@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef FILE_H
-#define FILE_H
+#ifndef TASK_PN532_H
+#define TASK_PN532_H
 
 // >>>>>>>>>>>>>>>>>>>> Common includes
 
@@ -41,5 +41,7 @@
 // >>>>>>>>>>>>>>>>>>>> Defines
 
 // >>>>>>>>>>>>>>>>>>>> Declarations
+
+void task__pn532(void *params);
 
 #endif

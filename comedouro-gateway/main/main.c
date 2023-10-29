@@ -38,8 +38,11 @@
 #include "user_pn532.h"
 #include "user_wifi.h"
 #include "user_httpd.h"
+#include "task_pn532.h"
 
 // >>>>>>>>>>>>>>>>>>>> ESP-IDF includes
+
+#include "freertos/FreeRTOSConfig.h"
 
 // >>>>>>>>>>>>>>>>>>>> libc includes
 
@@ -53,20 +56,16 @@
 
 static const char *TAG = "MainModule";
 static void main__init(void);
+TaskHandle_t pn532_task_handle; ///< PN532 task handle
 
 // >>>>>>>>>>>>>>>>>>>> Main
 
 void app_main(void)
 {
-    uint8_t uid[7] = {0};
     ESP_LOGI(TAG, "Hello world! Initializing main modules...");
     main__init();
-    while (1)
-    {
-        ESP_LOGD(TAG, "Inside main loop!");
-        pn532__read_uid(uid);
-        vTaskDelay(pdMS_TO_TICKS(MAIN_LOOP_DELAY_MS));
-    }
+    ESP_LOGI(TAG, "Creating PN532 task");
+    xTaskCreate(task__pn532, "task_pn532", 2500, NULL, 0, &pn532_task_handle);
 }
 
 // >>>>>>>>>>>>>>>>>>>> User-defined functions

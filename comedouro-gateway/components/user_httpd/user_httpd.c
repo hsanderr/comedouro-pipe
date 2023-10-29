@@ -38,6 +38,7 @@
 #include "main_post_page.h"
 #include "user_utils.h"
 #include "user_nvs.h"
+#include "user_pn532.h"
 
 // >>>>>>>>>>>>>>>>>>>> ESP-IDF includes
 
@@ -110,6 +111,7 @@ static esp_err_t httpd__post_main(httpd_req_t *req)
 
 	ESP_LOGI(TAG, "UID that will be written: %s", uid);
 	nvs__write_uid(uid);
+	pn532__authorize_uid_str(uid);
 
 	return ESP_OK;
 }
