@@ -56,8 +56,7 @@
 
 static const char *TAG = "MainModule";
 static void main__init(void);
-
-TaskHandle_t pn532_task_handle;
+TaskHandle_t pn532_task_handle; ///< PN532 task handle
 
 // >>>>>>>>>>>>>>>>>>>> Main
 
@@ -65,7 +64,8 @@ void app_main(void)
 {
     ESP_LOGI(TAG, "Hello world! Initializing main modules...");
     main__init();
-    xTaskCreate(task__pn532, "task_pn532", 2000, NULL, 0, &pn532_task_handle);
+    ESP_LOGI(TAG, "Creating PN532 task");
+    xTaskCreate(task__pn532, "task_pn532", 2500, NULL, 0, &pn532_task_handle);
 }
 
 // >>>>>>>>>>>>>>>>>>>> User-defined functions
