@@ -38,7 +38,8 @@
 #include "user_pn532.h"
 #include "user_wifi.h"
 #include "user_httpd.h"
-#include "task_pn532.h"
+#include "user_tasks.h"
+#include "user_pwm.h"
 
 // >>>>>>>>>>>>>>>>>>>> ESP-IDF includes
 
@@ -56,7 +57,6 @@
 
 static const char *TAG = "MainModule";
 static void main__init(void);
-TaskHandle_t pn532_task_handle; ///< PN532 task handle
 
 // >>>>>>>>>>>>>>>>>>>> Main
 
@@ -64,8 +64,8 @@ void app_main(void)
 {
     ESP_LOGI(TAG, "Hello world! Initializing main modules...");
     main__init();
-    ESP_LOGI(TAG, "Creating PN532 task");
-    xTaskCreate(task__pn532, "task_pn532", 2500, NULL, 0, &pn532_task_handle);
+    ESP_LOGI(TAG, "Creating tasks...");
+    tasks__create_all();
 }
 
 // >>>>>>>>>>>>>>>>>>>> User-defined functions
@@ -96,5 +96,10 @@ static void main__init(void)
     if (err != ESP_OK)
     {
         ESP_LOGE(TAG, "Error initializing HTTP daemon");
+    }
+    err = pwm__init();
+    if (err != ESP_OK)
+    {
+        ESP_LOGE(TAG, "Error initializing PWM");
     }
 }

@@ -35,6 +35,7 @@
 // >>>>>>>>>>>>>>>>>>>> App includes
 
 #include "user_pn532.h"
+#include "user_pwm.h"
 
 // >>>>>>>>>>>>>>>>>>>> ESP-IDF includes
 
@@ -83,7 +84,10 @@ void task__pn532(void *params)
 			if (no_tag_found_sequence > MAX_READ_TAG_RETRIES)
 			{
 				ESP_LOGI(TAG, "Max number of read tag retries exceeded, closing lid...");
-				// close_lid();
+				if (pwm__set_duty_min() != ESP_OK)
+				{
+					ESP_LOGE(TAG, "Error closing lid");
+				}
 				lid_open = 0;
 			}
 		}
@@ -95,7 +99,10 @@ void task__pn532(void *params)
 				if (!lid_open)
 				{
 					ESP_LOGI(TAG, "Opening lid...");
-					// open_lid();
+					if (pwm__set_duty_max() != ESP_OK)
+					{
+						ESP_LOGE(TAG, "Error opening lid");
+					}
 					lid_open = 1;
 				}
 				else
@@ -106,7 +113,11 @@ void task__pn532(void *params)
 			else if (lid_open)
 			{
 				ESP_LOGI(TAG, "Unauthorized tag found and lid is open, closing lid...");
-				// close_lid();
+				ESP_LOGI(TAG, "Opening lid...");
+				if (pwm__set_duty_min() != ESP_OK)
+				{
+					ESP_LOGE(TAG, "Error closing lid");
+				}
 				lid_open = 0;
 			}
 		}
