@@ -127,6 +127,51 @@ uint32_t pn532_getFirmwareVersion(pn532_t *obj)
     return response;
 }
 
+uint8_t pn532_setMaxTimeouts(pn532_t *obj)
+{
+    // uint32_t response;
+
+    pn532_packetbuffer[0] = PN532_COMMAND_RFCONFIGURATION;
+    pn532_packetbuffer[1] = 0x02;
+    pn532_packetbuffer[2] = 0x00;
+    pn532_packetbuffer[3] = 0x10;
+    pn532_packetbuffer[4] = 0x10;
+    pn532_packetbuffer[5] = 0x10;
+
+    if (!pn532_sendCommandCheckAck(obj, pn532_packetbuffer, 6, 1000))
+    {
+        return 0;
+    }
+
+    return 1;
+}
+
+uint8_t pn532_setRxThreshold(pn532_t *obj, uint8_t th)
+{
+    // uint32_t response;
+
+    pn532_packetbuffer[0] = PN532_COMMAND_RFCONFIGURATION;
+    pn532_packetbuffer[1] = 0x0a;
+    pn532_packetbuffer[2] = 0x59;
+    pn532_packetbuffer[3] = 0xf4;
+    pn532_packetbuffer[4] = 0x3f;
+    pn532_packetbuffer[5] = 0x11;
+    pn532_packetbuffer[6] = 0x4d;
+    pn532_packetbuffer[7] = th;
+    pn532_packetbuffer[8] = 0x61;
+    pn532_packetbuffer[9] = 0x6f;
+    pn532_packetbuffer[10] = 0x26;
+    pn532_packetbuffer[11] = 0x62;
+    pn532_packetbuffer[12] = 0x87;
+
+    if (!pn532_sendCommandCheckAck(obj, pn532_packetbuffer, 13, 1000))
+    {
+        return 0;
+    }
+
+    return 1;
+}
+
 /**************************************************************************/
 /*!
     @brief  Sends a command and waits a specified period for the ACK

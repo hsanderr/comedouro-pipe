@@ -1,5 +1,5 @@
 {
-    "C_Cpp.intelliSenseEngine": "default",
+    "C_Cpp.intelliSenseEngine": "Tag Parser",
     "idf.espIdfPathWin": "c:\\Users\\Henrique\\esp_v5.1.1\\esp-idf",
     "idf.pythonBinPathWin": "C:\\Users\\Henrique\\.espressif\\python_env\\idf5.1_py3.11_env\\Scripts\\python.exe",
     "idf.toolsPathWin": "C:\\Users\\Henrique\\.espressif",
@@ -22,6 +22,8 @@
         "global_prm.h": "c",
         "user_pn532.h": "c",
         "main_post_page.h": "c",
-        "task_pn532.h": "c"
+        "task_pn532.h": "c",
+        "user_wifi.h": "c",
+        "task_pwm.h": "c"
     }
 }
