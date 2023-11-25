@@ -89,6 +89,20 @@ esp_err_t pn532__init(void)
 	nvs__read_uid(authorized_uid);
 	ESP_LOGI(TAG, "Authorized UID: %s", authorized_uid);
 
+	if (!pn532_setRxThreshold(&nfc, 0x85))
+	{
+		ESP_LOGE(TAG, "Failed to set RX threshold");
+	}
+
+	ESP_LOGI(TAG, "Probably set RX threshold successfully");
+
+	if (!pn532_setMaxTimeouts(&nfc))
+	{
+		ESP_LOGE(TAG, "Failed to set timeouts");
+	}
+
+	ESP_LOGI(TAG, "Probably set timeouts successfully");
+
 	return ESP_OK;
 }
 
@@ -106,7 +120,7 @@ int8_t pn532__read_uid(uint8_t uid[])
 	ESP_LOGD(TAG, "Checking for ISO14443-3A card or tag...");
 	uint8_t len = 0; // store length of the UID read (4 or 7 bytes depending on ISO14443A card type)
 
-	if (pn532_readPassiveTargetID(&nfc, PN532_MIFARE_ISO14443A, uid, &len, 1000))
+	if (pn532_readPassiveTargetID(&nfc, PN532_MIFARE_ISO14443A, uid, &len, 200))
 	{
 		// Display card/tag information
 		ESP_LOGI(TAG, "Found an ISO14443A card or tag");

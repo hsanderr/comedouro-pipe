@@ -45,8 +45,8 @@
 
 // >>>>>>>>>>>>>>>>>>>> Defines
 
-#define TASK_DELAY_MS 500	   ///< Task delay in miliseconds
-#define MAX_READ_TAG_RETRIES 3 ///< Maximum number of retries to read tag after lid is open
+#define TASK_DELAY_MS 10		///< Task delay in miliseconds
+#define MAX_READ_TAG_RETRIES 15 ///< Maximum number of retries to read tag after lid is open
 
 // >>>>>>>>>>>>>>>>>>>> Global declarations
 
